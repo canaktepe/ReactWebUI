@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 
-import 'datatables.net';
+import 'datatables.net-bs4';
 import '../node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css'
 const $ = require('jquery')
 $.DataTable = require('datatables.net');
