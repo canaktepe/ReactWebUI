@@ -20,7 +20,6 @@ export class Tbl extends Component {
         })
     }
     componentWillUnmount() {
-      
          this.$el.DataTable().destroy(true)
     }
 

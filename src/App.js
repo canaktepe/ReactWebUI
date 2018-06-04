@@ -21,6 +21,10 @@ class NewProduct extends Component {
       .then(res => res.json())
       .then(
         (result) => {
+         if(typeof result !== 'object'){
+           alert(result)
+           return;
+         }
           this.props.pushElement(result);
         },
         (error) => {
@@ -66,7 +70,7 @@ class App extends Component {
     };
   }
 
-  pushElement = function(element){
+  pushElement = function (element) {
     this.setState({
       isLoaded: true,
       items: this.state.items.concat([element])
