@@ -20,8 +20,17 @@ export class Tbl extends Component {
         })
     }
     componentWillUnmount() {
-        this.$el.DataTable.destroy(true)
+      
+         this.$el.DataTable().destroy(true)
     }
+
+    componentDidUpdate(){
+        this.$el = $(this.el)
+        this.$el.DataTable().clear();
+        this.$el.DataTable().rows.add(this.props.data);
+        this.$el.DataTable().draw();
+    }
+
     render() {
         return <div>
             <table className="table table-striped table-bordered" width="100%" ref={el => this.el = el}>

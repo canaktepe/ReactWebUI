@@ -5,10 +5,10 @@ import $ from "jquery";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 
-const apiURL = "http://reactapi.cn/api/products";
+const apiURL = "http://85.96.194.128:5000/api/products";
 
 class NewProduct extends Component {
-  handleSubmit = function  (e){
+  handleSubmit = function (e) {
     e.preventDefault();
     const data = $("form").serialize();
     fetch(apiURL, {
@@ -21,29 +21,21 @@ class NewProduct extends Component {
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(result);
-          Tbl.setState({
-            isLoaded: true,
-            items: result
-          });
+          this.props.pushElement(result);
         },
         (error) => {
           console.log(error);
-          Tbl.setState({
-            isLoaded: true,
-            error
-          });
         }
       )
   }
 
   render() {
     return <div>
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit.bind(this)}>
         <div className="form-group row">
           <label htmlFor="ProductName" className="col-sm-2 col-form-label">Product Name</label>
           <div className="col-sm-10">
-            <input type="text"  className="form-control" name="ProductName" id="ProductName" placeholder="Product Name" />
+            <input type="text" className="form-control" name="ProductName" id="ProductName" placeholder="Product Name" />
           </div>
         </div>
         <div className="form-group row">
@@ -72,6 +64,13 @@ class App extends Component {
       isLoaded: false,
       items: []
     };
+  }
+
+  pushElement = function(element){
+    this.setState({
+      isLoaded: true,
+      items: this.state.items.concat([element])
+    })
   }
 
   componentDidMount() {
@@ -106,7 +105,7 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="App-title">Welcome to React</h1>
           </header>
-          <NewProduct />
+          <NewProduct pushElement={this.pushElement.bind(this)} />
           <hr />
           <Tbl data={items} />
         </div>
