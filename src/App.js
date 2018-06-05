@@ -5,6 +5,9 @@ import $ from "jquery";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 
+import { Dialog } from './Dialog';
+import {NewProductForm} from './DialogForms/NewProduct'
+
 const apiURL = "http://85.96.194.128:5000/api/products";
 
 class NewProduct extends Component {
@@ -21,10 +24,10 @@ class NewProduct extends Component {
       .then(res => res.json())
       .then(
         (result) => {
-         if(typeof result !== 'object'){
-           alert(result)
-           return;
-         }
+          if (typeof result !== 'object') {
+            alert(result)
+            return;
+          }
           this.props.pushElement(result);
         },
         (error) => {
@@ -66,15 +69,9 @@ class App extends Component {
     this.state = {
       error: null,
       isLoaded: false,
-      items: []
+      items: [],
+      modalOpened: false
     };
-  }
-
-  pushElement = function (element) {
-    this.setState({
-      isLoaded: true,
-      items: this.state.items.concat([element])
-    })
   }
 
   componentDidMount() {
@@ -96,6 +93,20 @@ class App extends Component {
       )
   }
 
+
+  pushElement = function (element) {
+    this.setState({
+      isLoaded: true,
+      items: this.state.items.concat([element]),
+    })
+  }
+
+  modalOpenOrClose(e) {
+    this.setState({
+      modalOpened: !this.state.modalOpened
+    });
+  }
+
   render() {
     const { error, isLoaded, items } = this.state;
     if (error) {
@@ -109,6 +120,10 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="App-title">Welcome to React</h1>
           </header>
+
+          <button onClick={this.modalOpenOrClose.bind(this)}>Open Modal</button>
+          {this.state.modalOpened && <Dialog component={<NewProductForm />} modalOpenOrClose={this.modalOpenOrClose.bind(this)} />}
+
           <NewProduct pushElement={this.pushElement.bind(this)} />
           <hr />
           <Tbl data={items} />

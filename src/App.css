@@ -22,6 +22,15 @@
   font-size: large;
 }
 
+.modal-dialog{
+  position: relative;
+  display: table; /* This is important */ 
+  overflow-y: auto;    
+  overflow-x: auto;
+  width: auto;
+  min-width: 300px;   
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
